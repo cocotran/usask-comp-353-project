@@ -20,8 +20,12 @@ app.get("/staff", (req, res) => {
   res.sendFile(path.join(__dirname, "templates/staff.html"));
 });
 
-app.get("/admin", (req, res) => {
-  res.sendFile(path.join(__dirname, "templates/admin.html"));
+app.get("/admin/staff", (req, res) => {
+  res.sendFile(path.join(__dirname, "templates/admin-staff.html"));
+});
+
+app.get("/admin/client", (req, res) => {
+  res.sendFile(path.join(__dirname, "templates/admin-client.html"));
 });
 
 // ================= CRUD API Handlers =================
