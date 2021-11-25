@@ -53,3 +53,30 @@ li a:hover {
 .active {
   background-color: #4CAF50;
 }
+
+.home-nav {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.w-40 {
+  width: 10rem;
+} 
+.px-5 {
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+} 
+
+.py-3 {
+  padding-top: 0.75rem !important;
+  padding-bottom: 0.75rem !important;
+}
+
+.text-4xl {
+  font-size: 2.25rem;
+  line-height: 2.5rem;
+}
