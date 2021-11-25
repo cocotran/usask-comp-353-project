@@ -40,6 +40,9 @@ require("./routes/staff.routes.js")(app);
 // Set up routes to handle client related info
 require("./routes/client.routes.js")(app);
 
+// Set up routes to handle tracker related info
+require("./routes/tracker.routes.js")(app);
+
 // ================= Start Server =================
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);

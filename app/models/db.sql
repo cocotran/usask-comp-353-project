@@ -18,3 +18,20 @@ CREATE TABLE IF NOT EXISTS clients (
     dob DATE,
     phoneNumber VARCHAR(11)
 );
+
+CREATE TABLE IF NOT EXISTS trackers (
+	entryID INT PRIMARY KEY AUTO_INCREMENT,
+	entryDate DATE,
+    clientID  INT,
+    fatique BIT,
+    anxiety BIT,
+    unmotivated BIT,
+    sadness BIT,
+    irritable BIT,
+    headache BIT,
+    crying BIT,
+    bodyaches BIT,
+	jounaling BIT,
+    mediation BIT,
+    yoga BIT
+);
