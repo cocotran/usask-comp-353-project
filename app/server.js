@@ -3,6 +3,7 @@ const express = require("express");
 
 // ================= Server Config =================
 const app = express();
+app.use(express.static(__dirname + "/static"));
 app.use(express.json()); // for parsing application/json; bodyParser.json() is deprecated
 const PORT = process.env.PORT || 3000;
 

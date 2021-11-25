@@ -19,7 +19,7 @@ Staff.create = (newStaff, func) => {
       return;
     }
 
-    console.log("Created staff: ", { id: res.insertId, ...newStaff });
+    // console.log("Created staff: ", { id: res.insertId, ...newStaff });
     func(null, { id: res.insertId, ...newStaff });
   });
 };
@@ -33,7 +33,7 @@ Staff.findById = (id, func) => {
     }
 
     if (res.length) {
-      console.log("Found staff: ", res[0]);
+      // console.log("Found staff: ", res[0]);
       func(null, res[0]);
       return;
     }
@@ -53,7 +53,7 @@ Staff.getAll = (func) => {
       return;
     }
 
-    console.log("Staffs: ", res);
+    // console.log("Staffs: ", res);
     func(null, res);
   });
 };
@@ -75,7 +75,7 @@ Staff.updateById = (id, staff, func) => {
         return;
       }
 
-      console.log("Updated staff: ", { id: id, ...staff });
+      // console.log("Updated staff: ", { id: id, ...staff });
       func(null, { id: id, ...staff });
     }
   );
@@ -95,7 +95,7 @@ Staff.removeById = (id, func) => {
       return;
     }
 
-    console.log("Deleted staff with id: ", id);
+    // console.log("Deleted staff with id: ", id);
     func(null, res);
   });
 };
@@ -108,7 +108,7 @@ Staff.removeAll = (func) => {
       return;
     }
 
-    console.log(`Deleted ${res.affectedRows}`);
+    // console.log(`Deleted ${res.affectedRows}`);
     func(null, res);
   });
 };
