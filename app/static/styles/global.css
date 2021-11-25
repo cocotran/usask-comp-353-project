@@ -1,0 +1,18 @@
+table{
+	width:100%;
+}
+
+td form {
+	margin:0;padding:0;
+}
+
+td form button.button{
+	padding:0.25em;margin:0.25em;
+	background:none;
+	color:blue;
+}
+
+td form button.button:hover{
+  background:none;
+	color:steelblue;
+}

@@ -2,8 +2,8 @@ const mysql = require("mysql");
 
 const Config = Object.freeze({
   host: "localhost",
-  user: "admin",
-  password: "admin",
+  user: "root",
+  password: "2732000",
   database: "project",
 });
 

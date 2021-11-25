@@ -4,13 +4,13 @@ module.exports = (app) => {
   const staffRouter = require("express").Router();
 
   // Create a new staff
-  staffRouter.post("/", staffController.create);
+  staffRouter.post("/", staffController.register);
 
   // Retrieve all staffs
   staffRouter.get("/all", staffController.findAll);
 
   // Retrieve a single staff with id
-  staffRouter.get("/:id", staffController.findOne);
+  staffRouter.get("/:id", staffController.findById);
 
   // Update a staff with id
   staffRouter.put("/:id", staffController.update);

@@ -30,7 +30,7 @@ app.get("/ping", (req, res) => {
 });
 
 // Set up routes to handle staff related info
-require("./app/routes/staff.routes.js")(app);
+require("./routes/staff.routes.js")(app);
 
 // ================= Start Server =================
 app.listen(PORT, () => {
