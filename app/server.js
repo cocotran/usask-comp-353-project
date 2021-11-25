@@ -37,6 +37,9 @@ app.get("/ping", (req, res) => {
 // Set up routes to handle staff related info
 require("./routes/staff.routes.js")(app);
 
+// Set up routes to handle client related info
+require("./routes/client.routes.js")(app);
+
 // ================= Start Server =================
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);

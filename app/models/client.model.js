@@ -1,31 +1,31 @@
+
 const db = require("./db.js");
 
-const TABLE_STAFF = "staffs";
+const TABLE_CLIENT = "clients";
 
-class Staff {
-  constructor(staff) {
-    this.name = staff.name;
-    this.role = staff.role;
-    this.dob = staff.dob;
-    this.phoneNumber = staff.phoneNumber;
+class Client {
+  constructor(client) {
+    this.name = client.name;
+    this.dob = client.dob;
+    this.phoneNumber = client.phoneNumber;
   }
 }
 
-Staff.create = (newStaff, func) => {
-  db.query(`INSERT INTO ${TABLE_STAFF} SET ?`, newStaff, (err, res) => {
+Client.create = (newStaff, func) => {
+  db.query(`INSERT INTO ${TABLE_CLIENT} SET ?`, newStaff, (err, res) => {
     if (err) {
       console.log("Error: ", err);
       func(err, null);
       return;
     }
 
-    // console.log("Created staff: ", { id: res.insertId, ...newStaff });
+    // console.log("Created client: ", { id: res.insertId, ...newStaff });
     func(null, { id: res.insertId, ...newStaff });
   });
 };
 
-Staff.findById = (id, func) => {
-  db.query(`SELECT * FROM ${TABLE_STAFF} WHERE staffID = ${id}`, (err, res) => {
+Client.findById = (id, func) => {
+  db.query(`SELECT * FROM ${TABLE_CLIENT} WHERE clientID = ${id}`, (err, res) => {
     if (err) {
       console.log("Error: ", err);
       func(err, null);
@@ -33,7 +33,7 @@ Staff.findById = (id, func) => {
     }
 
     if (res.length) {
-      // console.log("Found staff: ", res[0]);
+      // console.log("Found client: ", res[0]);
       func(null, res[0]);
       return;
     }
@@ -43,8 +43,8 @@ Staff.findById = (id, func) => {
   });
 };
 
-Staff.getAll = (func) => {
-  let query = `SELECT * FROM ${TABLE_STAFF}`;
+Client.getAll = (func) => {
+  let query = `SELECT * FROM ${TABLE_CLIENT}`;
 
   db.query(query, (err, res) => {
     if (err) {
@@ -53,14 +53,14 @@ Staff.getAll = (func) => {
       return;
     }
 
-    // console.log("Staffs: ", res);
+    // console.log("client: ", res);
     func(null, res);
   });
 };
 
-Staff.updateById = (id, staff, func) => {
+Client.updateById = (id, staff, func) => {
   db.query(
-    `UPDATE ${TABLE_STAFF} SET name = ?, role = ?, dob = ?, phoneNumber = ? WHERE staffID = ?`,
+    `UPDATE ${TABLE_CLIENT} SET name = ?, role = ?, dob = ?, phoneNumber = ? WHERE clientID = ?`,
     [staff.name, staff.role, staff.dob, staff.phoneNumber, staff.id],
     (err, res) => {
       if (err) {
@@ -75,14 +75,14 @@ Staff.updateById = (id, staff, func) => {
         return;
       }
 
-      // console.log("Updated staff: ", { id: id, ...staff });
+      // console.log("Updated client: ", { id: id, ...staff });
       func(null, { id: id, ...staff });
     }
   );
 };
 
-Staff.removeById = (id, func) => {
-  db.query(`DELETE FROM ${TABLE_STAFF} WHERE staffID = ?`, id, (err, res) => {
+Client.removeById = (id, func) => {
+  db.query(`DELETE FROM ${TABLE_CLIENT} WHERE clientID = ?`, id, (err, res) => {
     if (err) {
       console.log("error: ", err);
       func(null, err);
@@ -95,13 +95,13 @@ Staff.removeById = (id, func) => {
       return;
     }
 
-    // console.log("Deleted staff with id: ", id);
+    // console.log("Deleted client with id: ", id);
     func(null, res);
   });
 };
 
-Staff.removeAll = (func) => {
-  db.query(`DELETE FROM ${TABLE_STAFF}`, (err, res) => {
+Client.removeAll = (func) => {
+  db.query(`DELETE FROM ${TABLE_CLIENT}`, (err, res) => {
     if (err) {
       console.log("Error: ", err);
       func(null, err);
@@ -113,4 +113,4 @@ Staff.removeAll = (func) => {
   });
 };
 
-module.exports = Staff;
+module.exports = Client;

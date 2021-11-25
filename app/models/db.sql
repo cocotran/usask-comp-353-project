@@ -11,3 +11,10 @@ CREATE TABLE IF NOT EXISTS staffs (
     dob DATE,
     phone VARCHAR(11)
 );
+
+CREATE TABLE IF NOT EXISTS clients (
+	clientID INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255),
+    dob DATE,
+    phoneNumber VARCHAR(11)
+);
