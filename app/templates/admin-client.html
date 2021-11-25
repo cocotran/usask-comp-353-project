@@ -165,7 +165,7 @@
 
       const removeClientRow = async (id) => {
         const newClient = await deleteClient(id);
-        if (newClient?.message) removeSingleRow(id);
+        if (newClient?.message == "Client was deleted successfully!") removeSingleRow(id);
       };
 
       // ============================= Start Up =============================

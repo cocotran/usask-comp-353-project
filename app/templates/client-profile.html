@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/styles/global.css" />
+    <title>Clien</title>
+  </head>
+  <body>
+
+    <!-- Navbar -->
+    <ul>
+      <li><a class="active" href="/">Home</a></li>
+      <li><a class="" href="/client/entry">Add New Entry</a></li>
+      <li><a class="" href="/client/profile">My Profile</a></li>
+    </ul>
+    <!-- Navbar end -->
+
+    <h1 class="text-center">My Profile</h1>
+
+    <table class="w-full">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>fatique</th>
+          <th>anxiety</th>
+          <th>unmotivated</th>
+          <th>sadness</th>
+          <th>irritable</th>
+          <th>headache</th>
+          <th>crying</th>
+          <th>bodyaches</th>
+          <th>jounaling</th>
+          <th>mediation</th>
+          <th>yoga</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tfoot></tfoot>
+      <tbody id="tbody">
+        <!-- Content -->
+        <!-- End content -->
+      </tbody>
+    </table>
+
+    <script>
+      const tbody = document.getElementById("tbody");
+
+      // ============================= HTTP request helpers =============================
+      const getAllEntries = async () => {
+        const res = await fetch(`http://${window.location.host}/api/tracker/all`);
+        return res.json();
+      };
+
+      const deleteEntry = async (id) => {
+        const res = await fetch(
+          `http://${window.location.host}/api/tracker/${id}`,
+          { method: "DELETE" }
+        );
+        return res.json();
+      };
+
+      // ============================= GUI handlers =============================
+      const getDeleteButton = (id) => {
+        let button = document.createElement("button");
+        button.innerText = "Delete";
+        button.onclick = () => removeEntryRow(id);
+        return button;
+      };
+
+      const generateTable = async () => {
+        const entries = await getAllEntries();
+
+        entries.forEach((entry) => {
+          addSingleRow(entry);
+        });
+      };
+
+      const addSingleRow = async (entry) => {
+        let newRow = document.createElement("tr");
+        newRow.id = entry.entryID;
+
+        for (const [key, value] of Object.entries(entry)) {
+          if (key == "entryID" || key == "clientID") continue;
+
+          let field = document.createElement("td");
+          if (key == "entryDate") field.innerHTML = value;
+          else {
+            if (value == 1) field.innerText = "x";
+          }
+          newRow.appendChild(field);
+        }
+        let action = document.createElement("td");
+        action.appendChild(getDeleteButton(entry.entryID));
+
+        newRow.appendChild(action);
+        tbody.appendChild(newRow);
+      };
+
+      const removeSingleRow = async (id) => {
+        const rowToRemove = document.getElementById(id);
+        tbody.removeChild(rowToRemove);
+      };
+
+      // ============================= Button Handlers =============================
+      const removeEntryRow = async (id) => {
+        const newClient = await deleteEntry(id);
+        if (newClient?.message == "Entry was deleted successfully!") removeSingleRow(id);
+      };
+
+      // ============================= Start Up =============================
+      generateTable();
+    </script>
+  </body>
+</html>

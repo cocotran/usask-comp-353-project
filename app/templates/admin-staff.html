@@ -179,7 +179,7 @@
 
       const removeStaffRow = async (id) => {
         const newStaff = await deleteStaff(id);
-        if (newStaff?.message) removeSingleRow(id);
+        if (newStaff?.message == "Staff was deleted successfully!") removeSingleRow(id);
       };
 
       // ============================= Start Up =============================

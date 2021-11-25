@@ -12,8 +12,12 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "templates/home.html"));
 });
 
-app.get("/client", (req, res) => {
-  res.sendFile(path.join(__dirname, "templates/client.html"));
+app.get("/client/profile", (req, res) => {
+  res.sendFile(path.join(__dirname, "templates/client-profile.html"));
+});
+
+app.get("/client/entry", (req, res) => {
+  res.sendFile(path.join(__dirname, "templates/client-entry.html"));
 });
 
 app.get("/staff", (req, res) => {
