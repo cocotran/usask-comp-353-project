@@ -1,7 +1,10 @@
 {
-  "name": "backend",
+  "name": "comp353-project",
+  "engines": {
+    "node": "14.15.4"
+  },
   "version": "1.0.0",
-  "description": "Backend for mental health tracker",
+  "description": "Mental health tracker",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

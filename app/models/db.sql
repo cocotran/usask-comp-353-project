@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS clients (
 
 CREATE TABLE IF NOT EXISTS trackers (
 	entryID INT PRIMARY KEY AUTO_INCREMENT,
-	entryDate DATE,
+	entryDate DATETIME,
     clientID  INT,
     fatique INT,
     anxiety INT,

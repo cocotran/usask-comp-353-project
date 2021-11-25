@@ -14,12 +14,12 @@ module.exports = (app) => {
   
     // Update a staff with id
     clientRouter.put("/:id", clientController.update);
+
+    // Delete all staffs
+    clientRouter.delete("/all", clientController.deleteAll);
   
     // Delete a staff with id
     clientRouter.delete("/:id", clientController.delete);
-  
-    // Delete all staffs
-    clientRouter.delete("/all", clientController.deleteAll);
   
     app.use("/api/client", clientRouter);
   };

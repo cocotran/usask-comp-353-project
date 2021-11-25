@@ -14,12 +14,12 @@ module.exports = (app) => {
   
     // Update a staff with id
     trackerRouter.put("/:id", trackerController.update);
+
+    // Delete all staffs
+    trackerRouter.delete("/all", trackerController.deleteAll);
   
     // Delete a staff with id
     trackerRouter.delete("/:id", trackerController.delete);
-  
-    // Delete all staffs
-    trackerRouter.delete("/all", trackerController.deleteAll);
   
     app.use("/api/tracker", trackerRouter);
   };

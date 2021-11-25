@@ -5,94 +5,93 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/styles/global.css" />
-    <title>Clien</title>
+    <title>Client</title>
   </head>
   <body>
 
     <!-- Navbar -->
     <ul>
       <li><a class="active" href="/">Home</a></li>
-      <li><a class="" href="/">Add New Entry</a></li>
-      <li><a class="" href="/">My Profile</a></li>
+      <li><a class="" href="/client/entry">Add New Entry</a></li>
+      <li><a class="" href="/client/profile">My Profile</a></li>
     </ul>
     <!-- Navbar end -->
 
-    <h1 class="text-center">Add new entry</h1>
+    <h1 class="text-center">Daily entry</h1>
 
-    <div>
-        <span>fatique</span>
-        <input type="radio" id="fatique" name="fatique" value="fatique">
-        <label for="html">Yes</label>
-    </div>
+    <table class="w-full">
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th>Select if you experience this today</th>
+        </tr>
+      </thead>
+      <tfoot></tfoot>
+      <tbody id="tbody">
+      </tbody>
+    </table>
+
+    <button class="submit-btn" onclick="handleSubmit()">Submit Entry</button>
 
     <script>
-    
-    //   const tbody = document.getElementById("tbody");
+      const tbody = document.getElementById("tbody");
 
-    //   // ============================= HTTP request helpers =============================
-    //   const getAllEntries = async () => {
-    //     const res = await fetch(`http://${window.location.host}/api/tracker/all`);
-    //     return res.json();
-    //   };
 
-    //   const deleteEntry = async (id) => {
-    //     const res = await fetch(
-    //       `http://${window.location.host}/api/tracker/${id}`,
-    //       { method: "DELETE" }
-    //     );
-    //     return res.json();
-    //   };
+      const entries = ["fatique", "anxiety", "irritable", "unmotivated", "sadness", "headache", "crying", "bodyaches", "jounaling", "mediation", "yoga"]
+      entries.forEach((val) => {
+        let newRow = document.createElement("tr");
+        newRow.innerHTML = `<td>${val}</td>
+                            <td>
+                              <input type="checkbox" id=${val} name=${val} value=${val}>
+                              <label for="html">Yes</label>
+                            </td>`
+        tbody.appendChild(newRow);
+      });
 
-    //   // ============================= GUI handlers =============================
-    //   const getDeleteButton = (id) => {
-    //     let button = document.createElement("button");
-    //     button.innerText = "Delete";
-    //     button.onclick = () => removeEntryRow(id);
-    //     return button;
-    //   };
+      // ============================= HTTP request helpers =============================
+      const submitEntry = async () => {
+        const res = await fetch(`http://${window.location.host}/api/tracker`, {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+              entryDate: new Date().toISOString().slice(0, 19).replace('T', ' '),
+              clientID: "1",
+              fatique: document.getElementById("fatique").checked ? "1" : "0",
+              anxiety: document.getElementById("anxiety").checked ? "1" : "0",
+              unmotivated: document.getElementById("unmotivated").checked ? "1" : "0",
+              sadness: document.getElementById("sadness").checked ? "1" : "0",
+              irritable: document.getElementById("irritable").checked ? "1" : "0",
+              headache: document.getElementById("headache").checked ? "1" : "0",
+              crying : document.getElementById("crying").checked ? "1" : "0",
+              bodyaches : document.getElementById("bodyaches").checked ? "1" : "0",
+              jounaling : document.getElementById("jounaling").checked ? "1" : "0",
+              mediation : document.getElementById("mediation").checked ? "1" : "0",
+              yoga : document.getElementById("yoga").checked ? "1" : "0"
+          }),
+        });
+        return res.json();
+      };
 
-    //   const generateTable = async () => {
-    //     const entries = await getAllEntries();
+      // ============================= GUI handlers =============================
+      const handleSubmit = async () => {
+        const res = await submitEntry();
+        entries.forEach(val => {
+          const checkbox = document.getElementById(val);
+          checkbox.checked = false;
+        });
+      }
 
-    //     entries.forEach((entry) => {
-    //       addSingleRow(entry);
-    //     });
-    //   };
+      
 
-    //   const addSingleRow = async (entry) => {
-    //     let newRow = document.createElement("tr");
-    //     newRow.id = entry.entryID;
+     
 
-    //     for (const [key, value] of Object.entries(entry)) {
-    //       if (key == "entryID" || key == "clientID") continue;
+      // ============================= Button Handlers =============================
+      
 
-    //       let field = document.createElement("td");
-    //       if (key == "entryDate") field.innerHTML = value;
-    //       else {
-    //         if (value == 1) field.innerText = "x";
-    //       }
-    //       newRow.appendChild(field);
-    //     }
-    //     let action = document.createElement("td");
-    //     action.appendChild(getDeleteButton(entry.entryID));
-
-    //     newRow.appendChild(action);
-    //     tbody.appendChild(newRow);
-    //   };
-
-    //   const removeSingleRow = async (id) => {
-    //     const rowToRemove = document.getElementById(id);
-    //     tbody.removeChild(rowToRemove);
-    //   };
-
-    //   // ============================= Button Handlers =============================
-    //   const removeEntryRow = async (id) => {
-    //     const newClient = await deleteEntry(id);
-    //     if (newClient?.message == "Entry was deleted successfully!") removeSingleRow(id);
-    //   };
-
-    //   // ============================= Start Up =============================
-    //   generateTable();
+      // ============================= Start Up =============================
     </script>
   </body>
 </html>

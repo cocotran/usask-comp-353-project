@@ -15,11 +15,11 @@ module.exports = (app) => {
   // Update a staff with id
   staffRouter.put("/:id", staffController.update);
 
-  // Delete a staff with id
-  staffRouter.delete("/:id", staffController.delete);
-
   // Delete all staffs
   staffRouter.delete("/all", staffController.deleteAll);
+
+  // Delete a staff with id
+  staffRouter.delete("/:id", staffController.delete);
 
   app.use("/api/staff", staffRouter);
 };

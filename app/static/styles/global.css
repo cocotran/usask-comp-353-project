@@ -80,3 +80,10 @@ li a:hover {
   font-size: 2.25rem;
   line-height: 2.5rem;
 }
+
+.submit-btn {
+  font-size: 1.25rem;
+  margin-top: 3rem;
+  position: absolute;
+  left: 50%;
+}
