@@ -5,7 +5,7 @@ const express = require("express");
 const app = express();
 app.use(express.static(__dirname + "/static"));
 app.use(express.json()); // for parsing application/json; bodyParser.json() is deprecated
-const PORT = process.env.NODEJS_LOCAL_PORT || 3000;
+const PORT = process.env.PORT || 3000;
 
 // ================= Templates Handlers =================
 app.get("/", (req, res) => {
