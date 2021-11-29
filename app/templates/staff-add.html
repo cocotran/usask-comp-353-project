@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/styles/global.css" />
+    <title>Staff - Add Client</title>
+  </head>
+  <body>
+
+    <!-- Navbar -->
+    <ul>
+        <li><a class="active" href="/">Home</a></li>
+        <li><a class="" href="/staff/add">Add New Client</a></li>
+        <li><a class="" href="/staff">My Clients</a></li>
+    </ul>
+    <!-- Navbar end -->
+
+    <h1 class="text-center">Add Client</h1>
+
+    <table class="w-full">
+      <thead>
+        <tr>
+          <th>Client ID</th>
+        </tr>
+      </thead>
+      <tfoot></tfoot>
+      <tbody id="tbody">
+          <tr>
+              <td>
+                <input type="number" id="clientId" name="client-id">
+              </td>
+          </tr>
+      </tbody>
+    </table>
+
+    <button class="submit-btn" onclick="handleSubmit()">Add new client</button>
+
+    <script>
+      const tbody = document.getElementById("tbody");
+      const clientId = document.getElementById("clientId");
+
+      // ============================= HTTP request helpers =============================
+      const submitEntry = async () => {
+        const res = await fetch(`http://${window.location.host}/api/clientlist`, {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+              clientId: clientId.value,
+              staffId: "1"
+          }),
+        });
+        return res.json();
+      };
+
+      // ============================= GUI handlers =============================
+      const handleSubmit = async () => {
+        const res = await submitEntry();
+        entries.forEach(val => {
+          const checkbox = document.getElementById(val);
+          checkbox.checked = false;
+        });
+      }
+
+      
+
+     
+
+      // ============================= Button Handlers =============================
+      
+
+      // ============================= Start Up =============================
+    </script>
+  </body>
+</html>

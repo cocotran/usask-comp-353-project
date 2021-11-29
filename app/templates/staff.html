@@ -8,14 +8,22 @@
     <title>Staff</title>
   </head>
   <body>
-    <h1 class="text-center">Staffs</h1>
+
+    <!-- Navbar -->
+    <ul>
+      <li><a class="active" href="/">Home</a></li>
+      <li><a class="" href="/staff/add">Add New Client</a></li>
+      <li><a class="" href="/staff">My Clients</a></li>
+    </ul>
+    <!-- Navbar end -->
+
+    <h1 class="text-center">My Clients</h1>
 
     <table class="w-full">
       <thead>
         <tr>
           <th>ID</th>
           <th>Name</th>
-          <th>Role</th>
           <th>DOB</th>
           <th>Phone</th>
           <th>Action</th>
@@ -23,56 +31,6 @@
       </thead>
       <tfoot></tfoot>
       <tbody id="tbody">
-        <!-- Add Row -->
-        <tr id="addStaffInput">
-          <td></td>
-          <td>
-            <label for="nameInput"
-              ><input
-                type="text"
-                name="nameInput"
-                id="nameInput"
-                placeholder="Chim"
-                class="w-full"
-            /></label>
-          </td>
-          <td>
-            <label for="roleInput"
-              ><input
-                type="text"
-                name="roleInput"
-                id="roleInput"
-                placeholder="Chim"
-                class="w-full"
-            /></label>
-          </td>
-          <td>
-            <label for="dobInput"
-              ><input
-                type="text"
-                name="dobInput"
-                id="dobInput"
-                placeholder="Chim"
-                class="w-full"
-            /></label>
-          </td>
-          <td>
-            <label for="phoneInput"
-              ><input
-                type="text"
-                name="phoneInput"
-                id="phoneInput"
-                placeholder="Chim"
-                class="w-full"
-            /></label>
-          </td>
-
-          <td>
-            <button class="button" onclick="addNewStaffRow()">Add Staff</button>
-          </td>
-        </tr>
-        <!-- End Add Row -->
-
         <!-- Content -->
         <!-- End content -->
       </tbody>
@@ -80,98 +38,44 @@
 
     <script>
       const tbody = document.getElementById("tbody");
-      const addStaffInput = document.getElementById("addStaffInput");
+      const addClientInput = document.getElementById("addClientInput");
       const nameInput = document.getElementById("nameInput");
-      const roleInput = document.getElementById("roleInput");
       const dobInput = document.getElementById("dobInput");
       const phoneInput = document.getElementById("phoneInput");
 
       const editInput = `<button class="button">Edit</button>`;
 
       // ============================= HTTP request helpers =============================
-      const getAllStaffs = async () => {
-        const res = await fetch(`http://${window.location.host}/api/staff/all`);
-        return res.json();
-      };
-
-      const registerStaff = async (name, role, dob, phoneNumber) => {
-        const res = await fetch(`http://${window.location.host}/api/staff`, {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            name: name,
-            role: role,
-            dob: dob,
-            phoneNumber: phoneNumber,
-          }),
-        });
-        return res.json();
-      };
-
-      const deleteStaff = async (id) => {
-        const res = await fetch(
-          `http://${window.location.host}/api/staff/${id}`,
-          { method: "DELETE" }
-        );
+      const getAllClients = async () => {
+        const res = await fetch(`http://${window.location.host}/api/clientlist/staff/1`);
         return res.json();
       };
 
       // ============================= GUI handlers =============================
-      const getDeleteButton = (id) => {
-        let button = document.createElement("button");
-        button.innerText = "Delete";
-        button.onclick = () => removeStaffRow(id);
-        return button;
-      };
-
       const generateTable = async () => {
-        const staffs = await getAllStaffs();
+        const clients = await getAllClients();
 
-        staffs.forEach((staff) => {
-          addSingleRow(staff);
+        clients.forEach((client) => {
+          addSingleRow(client);
         });
       };
 
-      const addSingleRow = async (staff) => {
+      const addSingleRow = async (client) => {
         let newRow = document.createElement("tr");
-        newRow.id = staff.staffID;
-        Object.values(staff).forEach((val) => {
+        newRow.id = client.clientID;
+        Object.values(client).forEach((val) => {
           let field = document.createElement("td");
           field.innerText = val;
           newRow.appendChild(field);
         });
         let action = document.createElement("td");
-        action.appendChild(getDeleteButton(staff.staffID));
+        action.appendChild(getDeleteButton(client.clientID));
 
         newRow.appendChild(action);
         tbody.appendChild(newRow);
       };
 
-      const removeSingleRow = async (id) => {
-        const rowToRemove = document.getElementById(id);
-        tbody.removeChild(rowToRemove);
-      };
-
       // ============================= Button Handlers =============================
-      const addNewStaffRow = async () => {
-        const name = nameInput.value;
-        const role = roleInput.value;
-        const dob = dobInput.value;
-        const phoneNumber = phoneInput.value;
-
-        if (!name || !role || !dob || !phoneNumber) alert("Missing info!");
-
-        const newStaff = await registerStaff(name, role, dob, phoneNumber);
-        addSingleRow(newStaff);
-      };
-
-      const removeStaffRow = async (id) => {
-        const newStaff = await deleteStaff(id);
-        if (newStaff?.message) removeSingleRow(id);
-      };
 
       // ============================= Start Up =============================
       generateTable();

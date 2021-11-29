@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  mysqldb:
+    image: mysql
+    restart: always
+    env_file: ./.env
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+      MYSQL_DATABASE: $MYSQL_DATABASE
+    ports:
+      - $MYSQL_LOCAL_PORT:$MYSQL_DOCKER_PORT
+    command: --init-file /data/application/db.sql
+    volumes:
+      - ./db.sql:/data/application/db.sql
+
+  app:
+    build:
+      context: .
+      dockerfile: ./app/Dockerfile
+    image: node-mysql-app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mysqldb
+    stdin_open: true
+    tty: true
+
+volumes: 
+  db-config:
+  db-data:

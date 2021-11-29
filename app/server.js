@@ -5,7 +5,7 @@ const express = require("express");
 const app = express();
 app.use(express.static(__dirname + "/static"));
 app.use(express.json()); // for parsing application/json; bodyParser.json() is deprecated
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.NODEJS_LOCAL_PORT || 3000;
 
 // ================= Templates Handlers =================
 app.get("/", (req, res) => {
@@ -22,6 +22,10 @@ app.get("/client/entry", (req, res) => {
 
 app.get("/staff", (req, res) => {
   res.sendFile(path.join(__dirname, "templates/staff.html"));
+});
+
+app.get("/staff/add", (req, res) => {
+  res.sendFile(path.join(__dirname, "templates/staff-add.html"));
 });
 
 app.get("/admin/staff", (req, res) => {
@@ -46,6 +50,9 @@ require("./routes/client.routes.js")(app);
 
 // Set up routes to handle tracker related info
 require("./routes/tracker.routes.js")(app);
+
+// Set up routes to handle tracker related info
+require("./routes/clientlist.routes.js")(app);
 
 // ================= Start Server =================
 app.listen(PORT, () => {
