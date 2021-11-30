@@ -19,6 +19,11 @@
 
     <h1 class="text-center">My Clients</h1>
 
+    <label for="staffId">Client ID:</label>
+    <input type="number" id="staffId" name="staffId" min="1" max="1000000" step="1">
+
+    <button class="" onclick="generateTable()">Refresh</button>
+
     <table class="w-full">
       <thead>
         <tr>
@@ -42,22 +47,56 @@
       const nameInput = document.getElementById("nameInput");
       const dobInput = document.getElementById("dobInput");
       const phoneInput = document.getElementById("phoneInput");
+      const staffId = document.getElementById("staffId");
 
       const editInput = `<button class="button">Edit</button>`;
 
+      let staff;
+
       // ============================= HTTP request helpers =============================
       const getAllClients = async () => {
-        const res = await fetch(`https://${window.location.host}/api/clientlist/staff/1`);
+        const res = await fetch(`http://${window.location.host}/api/clientlist/staff/${staffId.value}`);
+        return res.json();
+      };
+
+      const getClientInfo = async (id) => {
+        const res = await fetch(`http://${window.location.host}/api/client/${id}`);
+        return res.json();
+      }
+
+      const deleteClient = async (clientID) => {
+        const res = await fetch(
+          `http://${window.location.host}/api/clientlist/${clientID}`,
+          { method: "DELETE",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                staffID: staff
+            }),
+          }
+        );
         return res.json();
       };
 
       // ============================= GUI handlers =============================
       const generateTable = async () => {
-        const clients = await getAllClients();
+        const couples = await getAllClients();
 
-        clients.forEach((client) => {
-          addSingleRow(client);
+        couples.forEach(async (couple) => {
+          const clientInfo = await getClientInfo(couple.clientID)
+          addSingleRow(clientInfo);
         });
+
+        staff = staffId.value;
+      };
+
+      const getDeleteButton = (id) => {
+        let button = document.createElement("button");
+        button.innerText = "Delete";
+        button.onclick = () => removeClientRow(id);
+        return button;
       };
 
       const addSingleRow = async (client) => {
@@ -75,10 +114,19 @@
         tbody.appendChild(newRow);
       };
 
+      const removeSingleRow = async (id) => {
+        const rowToRemove = document.getElementById(id);
+        tbody.removeChild(rowToRemove);
+      };
+
       // ============================= Button Handlers =============================
+      const removeClientRow = async (id) => {
+        const newClient = await deleteClient(id);
+        if (newClient?.message == "Client was deleted successfully!") removeSingleRow(id);
+      };
+
 
       // ============================= Start Up =============================
-      generateTable();
     </script>
   </body>
 </html>

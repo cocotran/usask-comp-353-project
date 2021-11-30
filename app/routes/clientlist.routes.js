@@ -21,7 +21,7 @@ module.exports = (app) => {
     // Delete all staffs
     clientRouter.delete("/all", clientlistController.deleteAll);
   
-    // Delete a staff with id
+    // Delete a staff-client pair with ids
     clientRouter.delete("/:id", clientlistController.delete);
   
     app.use("/api/clientlist", clientRouter);

@@ -35,7 +35,7 @@ TrackerEntry.create = (newEntry, func) => {
 };
 
 TrackerEntry.findById = (id, func) => {
-  db.query(`SELECT * FROM ${TABLE_TRACKER} WHERE entryID = ${id}`, (err, res) => {
+  db.query(`SELECT * FROM ${TABLE_TRACKER} WHERE clientID = ${id}`, (err, res) => {
     if (err) {
       console.log("Error: ", err);
       func(err, null);
@@ -44,7 +44,7 @@ TrackerEntry.findById = (id, func) => {
 
     if (res.length) {
       // console.log("Found entry: ", res[0]);
-      func(null, res[0]);
+      func(null, res);
       return;
     }
 

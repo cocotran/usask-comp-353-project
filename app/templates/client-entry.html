@@ -19,6 +19,9 @@
 
     <h1 class="text-center">Daily entry</h1>
 
+    <label for="clientId">Client ID:</label>
+    <input type="number" id="clientId" name="clientId" min="1" max="1000000" step="1">
+
     <table class="w-full">
       <thead>
         <tr>
@@ -58,7 +61,7 @@
           },
           body: JSON.stringify({
               entryDate: new Date().toISOString().slice(0, 19).replace('T', ' '),
-              clientID: "1",
+              clientID: document.getElementById("clientId").value,
               fatique: document.getElementById("fatique").checked ? "1" : "0",
               anxiety: document.getElementById("anxiety").checked ? "1" : "0",
               unmotivated: document.getElementById("unmotivated").checked ? "1" : "0",

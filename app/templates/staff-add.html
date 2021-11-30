@@ -23,6 +23,7 @@
       <thead>
         <tr>
           <th>Client ID</th>
+          <th>Staff ID</th>
         </tr>
       </thead>
       <tfoot></tfoot>
@@ -30,6 +31,9 @@
           <tr>
               <td>
                 <input type="number" id="clientId" name="client-id">
+              </td>
+              <td>
+                <input type="number" id="staffId" name="staff-id">
               </td>
           </tr>
       </tbody>
@@ -40,18 +44,19 @@
     <script>
       const tbody = document.getElementById("tbody");
       const clientId = document.getElementById("clientId");
+      const staffId = document.getElementById("staffId")
 
       // ============================= HTTP request helpers =============================
       const submitEntry = async () => {
-        const res = await fetch(`https://${window.location.host}/api/clientlist`, {
+        const res = await fetch(`http://${window.location.host}/api/clientlist`, {
           method: "POST",
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-              clientId: clientId.value,
-              staffId: "1"
+              clientID: clientId.value,
+              staffID: staffId.value
           }),
         });
         return res.json();
@@ -60,10 +65,8 @@
       // ============================= GUI handlers =============================
       const handleSubmit = async () => {
         const res = await submitEntry();
-        entries.forEach(val => {
-          const checkbox = document.getElementById(val);
-          checkbox.checked = false;
-        });
+        clientId.value = "";
+        staffId.value = "";
       }
 
       

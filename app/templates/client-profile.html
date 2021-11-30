@@ -19,6 +19,11 @@
 
     <h1 class="text-center">My Profile</h1>
 
+    <label for="clientId">Client ID:</label>
+    <input type="number" id="clientId" name="clientId" min="1" max="1000000" step="1">
+
+    <button class="" onclick="generateTable()">Refresh</button>
+
     <table class="w-full">
       <thead>
         <tr>
@@ -49,7 +54,8 @@
 
       // ============================= HTTP request helpers =============================
       const getAllEntries = async () => {
-        const res = await fetch(`https://${window.location.host}/api/tracker/all`);
+        const clientId = document.getElementById("clientId").value;
+        const res = await fetch(`https://${window.location.host}/api/tracker/${clientId}`);
         return res.json();
       };
 
@@ -110,7 +116,6 @@
       };
 
       // ============================= Start Up =============================
-      generateTable();
     </script>
   </body>
 </html>

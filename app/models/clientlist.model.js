@@ -33,7 +33,7 @@ ClientList.findStaffById = (id, func) => {
 
     if (res.length) {
       // console.log("Found client: ", res[0]);
-      func(null, res[0]);
+      func(null, res);
       return;
     }
 

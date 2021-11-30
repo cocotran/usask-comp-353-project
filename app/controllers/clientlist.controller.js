@@ -11,8 +11,8 @@ exports.register = (req, res) => {
 
   // Create a clientlist
   const client = new ClientList({
-    clientId: req.body.clientId,
-    staffId: req.body.staffId
+    clientID: req.body.clientID,
+    staffID: req.body.staffID
   });
 
   // Save clientlist in the database
@@ -98,7 +98,7 @@ exports.update = (req, res) => {
 
 // Delete clientlist with the specified id in the request
 exports.delete = (req, res) => {
-  ClientList.removeById(req.params.id, (err, data) => {
+  ClientList.removeById(req.body.staffID, req.params.id, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
