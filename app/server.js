@@ -1,10 +1,13 @@
 const path = require("path");
 const express = require("express");
+var cors = require('cors')
+
 
 // ================= Server Config =================
 const app = express();
 app.use(express.static(__dirname + "/static"));
 app.use(express.json()); // for parsing application/json; bodyParser.json() is deprecated
+app.use(cors())
 const PORT = process.env.PORT || 3000;
 
 // ================= Templates Handlers =================
