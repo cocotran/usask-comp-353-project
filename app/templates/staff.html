@@ -55,18 +55,18 @@
 
       // ============================= HTTP request helpers =============================
       const getAllClients = async () => {
-        const res = await fetch(`http://${window.location.host}/api/clientlist/staff/${staffId.value}`);
+        const res = await fetch(`https://${window.location.host}/api/clientlist/staff/${staffId.value}`);
         return res.json();
       };
 
       const getClientInfo = async (id) => {
-        const res = await fetch(`http://${window.location.host}/api/client/${id}`);
+        const res = await fetch(`https://${window.location.host}/api/client/${id}`);
         return res.json();
       }
 
       const deleteClient = async (clientID) => {
         const res = await fetch(
-          `http://${window.location.host}/api/clientlist/${clientID}`,
+          `https://${window.location.host}/api/clientlist/${clientID}`,
           { method: "DELETE",
             headers: {
               Accept: "application/json",

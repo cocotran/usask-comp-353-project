@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS staffs (
     name VARCHAR(255),
     role VARCHAR(255),
     dob DATE,
-    phone VARCHAR(11)
+    phoneNumber VARCHAR(11)
 );
 
 CREATE TABLE IF NOT EXISTS clients (
@@ -34,7 +34,8 @@ CREATE TABLE IF NOT EXISTS trackers (
     bodyaches INT,
 	jounaling INT,
     mediation INT,
-    yoga INT
+    yoga INT,
+    FOREIGN KEY (clientID) REFERENCES clients(clientID)
 );
 
 CREATE TABLE IF NOT EXISTS clientlist (
