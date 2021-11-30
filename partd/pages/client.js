@@ -230,7 +230,7 @@ export default function Client() {
   return (
     <div className="auth-text">
       <button className="w-40 px-5 py-3 text-4xl bg-black text-white rounded">
-        <a href="/api/auth/login">Login</a>
+        <Link href="/api/auth/login">Login</Link>
       </button>
     </div>
   );
