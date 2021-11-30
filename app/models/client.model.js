@@ -58,10 +58,10 @@ Client.getAll = (func) => {
   });
 };
 
-Client.updateById = (id, staff, func) => {
+Client.updateById = (id, client, func) => {
   db.query(
-    `UPDATE ${TABLE_CLIENT} SET name = ?, role = ?, dob = ?, phoneNumber = ? WHERE clientID = ?`,
-    [staff.name, staff.role, staff.dob, staff.phoneNumber, staff.id],
+    `UPDATE ${TABLE_CLIENT} SET name = ?, dob = ?, phoneNumber = ? WHERE clientID = ?`,
+    [client.name, client.dob, client.phoneNumber, id],
     (err, res) => {
       if (err) {
         console.log("Error: ", err);
@@ -76,7 +76,7 @@ Client.updateById = (id, staff, func) => {
       }
 
       // console.log("Updated client: ", { id: id, ...staff });
-      func(null, { id: id, ...staff });
+      func(null, { id: id, ...client });
     }
   );
 };

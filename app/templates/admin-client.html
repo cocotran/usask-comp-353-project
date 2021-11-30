@@ -19,6 +19,21 @@
 
     <h1 class="text-center">Clients</h1>
 
+    <div id="modal" class="modal">
+      <div class="modal-content">
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name" class="mb-8"><br>
+
+        <label for="dob">DOB:</label><br>
+        <input type="text" id="dob" name="dob" class="mb-8"><br>
+
+        <label for="phone">Phone:</label><br>
+        <input type="text" id="phone" name="phone" class="mb-8"><br>
+
+        <button id="confirmUpdateBtn" class="mt-5" onclick="confirmUpdateBtnHandler()">Update</button>
+      </div>
+    </div>
+
     <table class="w-full">
       <thead>
         <tr>
@@ -83,6 +98,13 @@
       const dobInput = document.getElementById("dobInput");
       const phoneInput = document.getElementById("phoneInput");
 
+      const modal = document.getElementById("modal");
+      const name = document.getElementById("name");
+      const dob = document.getElementById("dob");
+      const phone = document.getElementById("phone");
+      const confirmUpdateBtn = document.getElementById("confirmUpdateBtn");
+      let updateId;
+
       const editInput = `<button class="button">Edit</button>`;
 
       // ============================= HTTP request helpers =============================
@@ -115,11 +137,40 @@
         return res.json();
       };
 
+      const update = async (id, name, dob, phoneNumber) => {
+        const res = await fetch(`https://${window.location.host}/api/client/${id}`, {
+          method: "PUT",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: name,
+            dob: dob,
+            phoneNumber: phoneNumber,
+          }),
+        });
+        return res.json();
+      }
+
       // ============================= GUI handlers =============================
       const getDeleteButton = (id) => {
         let button = document.createElement("button");
         button.innerText = "Delete";
         button.onclick = () => removeClientRow(id);
+        return button;
+      };
+
+      const getUpdateButton = (client) => {
+        let button = document.createElement("button");
+        button.innerText = "Update";
+        button.onclick = () => {
+          name.value = client.name;
+          dob.value = client.dob.substring(0, 10);
+          phone.value = client.phoneNumber;
+          updateId = client.clientID;
+          openModal();
+        }
         return button;
       };
 
@@ -136,11 +187,15 @@
         newRow.id = client.clientID;
         Object.values(client).forEach((val) => {
           let field = document.createElement("td");
-          field.innerText = val;
+          if (typeof val == "string" && val.includes("-"))
+            field.innerText = val.substring(0, 10);
+          else
+            field.innerText = val;
           newRow.appendChild(field);
         });
         let action = document.createElement("td");
         action.appendChild(getDeleteButton(client.clientID));
+        action.appendChild(getUpdateButton(client));
 
         newRow.appendChild(action);
         tbody.appendChild(newRow);
@@ -168,8 +223,24 @@
         if (newClient?.message == "Client was deleted successfully!") removeSingleRow(id);
       };
 
+      const openModal = async () => {
+        modal.style.display = "block";
+      }
+
+      const confirmUpdateBtnHandler = async () => {
+        const res = await update(updateId, name.value, dob.value, phone.value);
+        if (res.id == updateId) alert(`Successfully update client with ID ${res.id}`)
+      }
+
       // ============================= Start Up =============================
       generateTable();
+
+      // When the user clicks anywhere outside of the modal, close it
+      window.onclick = function(event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      }
     </script>
   </body>
 </html>

@@ -61,7 +61,7 @@ Staff.getAll = (func) => {
 Staff.updateById = (id, staff, func) => {
   db.query(
     `UPDATE ${TABLE_STAFF} SET name = ?, role = ?, dob = ?, phoneNumber = ? WHERE staffID = ?`,
-    [staff.name, staff.role, staff.dob, staff.phoneNumber, staff.id],
+    [staff.name, staff.role, staff.dob, staff.phoneNumber, id],
     (err, res) => {
       if (err) {
         console.log("Error: ", err);
