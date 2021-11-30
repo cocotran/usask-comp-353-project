@@ -8,7 +8,6 @@
     <title>Staff</title>
   </head>
   <body>
-
     <!-- Navbar -->
     <ul>
       <li><a class="active" href="/">Home</a></li>
@@ -19,8 +18,15 @@
 
     <h1 class="text-center">My Clients</h1>
 
-    <label for="staffId">Client ID:</label>
-    <input type="number" id="staffId" name="staffId" min="1" max="1000000" step="1">
+    <label for="staffId">Staff ID:</label>
+    <input
+      type="number"
+      id="staffId"
+      name="staffId"
+      min="1"
+      max="1000000"
+      step="1"
+    />
 
     <button class="" onclick="generateTable()">Refresh</button>
 
@@ -55,25 +61,30 @@
 
       // ============================= HTTP request helpers =============================
       const getAllClients = async () => {
-        const res = await fetch(`https://${window.location.host}/api/clientlist/staff/${staffId.value}`);
+        const res = await fetch(
+          `https://${window.location.host}/api/clientlist/staff/${staffId.value}`
+        );
         return res.json();
       };
 
       const getClientInfo = async (id) => {
-        const res = await fetch(`https://${window.location.host}/api/client/${id}`);
+        const res = await fetch(
+          `https://${window.location.host}/api/client/${id}`
+        );
         return res.json();
-      }
+      };
 
       const deleteClient = async (clientID) => {
         const res = await fetch(
           `https://${window.location.host}/api/clientlist/${clientID}`,
-          { method: "DELETE",
+          {
+            method: "DELETE",
             headers: {
               Accept: "application/json",
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                staffID: staff
+              staffID: staff,
             }),
           }
         );
@@ -85,11 +96,18 @@
         const couples = await getAllClients();
 
         couples.forEach(async (couple) => {
-          const clientInfo = await getClientInfo(couple.clientID)
+          const clientInfo = await getClientInfo(couple.clientID);
           addSingleRow(clientInfo);
         });
 
         staff = staffId.value;
+      };
+
+      const getClientInfoButton = (id) => {
+        let button = document.createElement("a");
+        button.innerText = "View report";
+        button.href = `https://${window.location.host}/client/profile?clientID=${id}`;
+        return button;
       };
 
       const getDeleteButton = (id) => {
@@ -109,6 +127,7 @@
         });
         let action = document.createElement("td");
         action.appendChild(getDeleteButton(client.clientID));
+        action.appendChild(getClientInfoButton(client.clientID));
 
         newRow.appendChild(action);
         tbody.appendChild(newRow);
@@ -122,9 +141,9 @@
       // ============================= Button Handlers =============================
       const removeClientRow = async (id) => {
         const newClient = await deleteClient(id);
-        if (newClient?.message == "Client was deleted successfully!") removeSingleRow(id);
+        if (newClient?.message == "Client was deleted successfully!")
+          removeSingleRow(id);
       };
-
 
       // ============================= Start Up =============================
     </script>

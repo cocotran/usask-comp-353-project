@@ -1,4 +1,3 @@
-
 const db = require("./db.js");
 
 const TABLE_CLIENT = "clients";
@@ -25,22 +24,25 @@ Client.create = (newStaff, func) => {
 };
 
 Client.findById = (id, func) => {
-  db.query(`SELECT * FROM ${TABLE_CLIENT} WHERE clientID = ${id}`, (err, res) => {
-    if (err) {
-      console.log("Error: ", err);
-      func(err, null);
-      return;
-    }
+  db.query(
+    `SELECT * FROM ${TABLE_CLIENT} WHERE clientID = ${id}`,
+    (err, res) => {
+      if (err) {
+        console.log("Error: ", err);
+        func(err, null);
+        return;
+      }
 
-    if (res.length) {
-      // console.log("Found client: ", res[0]);
-      func(null, res[0]);
-      return;
-    }
+      if (res.length) {
+        // console.log("Found client: ", res[0]);
+        func(null, res[0]);
+        return;
+      }
 
-    // not found
-    func({ kind: "not_found" }, null);
-  });
+      // not found
+      func({ kind: "not_found" }, null);
+    }
+  );
 };
 
 Client.getAll = (func) => {

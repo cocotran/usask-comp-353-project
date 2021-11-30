@@ -8,7 +8,6 @@
     <title>Client</title>
   </head>
   <body>
-
     <!-- Navbar -->
     <ul>
       <li><a class="active" href="/">Home</a></li>
@@ -20,7 +19,14 @@
     <h1 class="text-center">Daily entry</h1>
 
     <label for="clientId">Client ID:</label>
-    <input type="number" id="clientId" name="clientId" min="1" max="1000000" step="1">
+    <input
+      type="number"
+      id="clientId"
+      name="clientId"
+      min="1"
+      max="1000000"
+      step="1"
+    />
 
     <table class="w-full">
       <thead>
@@ -30,8 +36,7 @@
         </tr>
       </thead>
       <tfoot></tfoot>
-      <tbody id="tbody">
-      </tbody>
+      <tbody id="tbody"></tbody>
     </table>
 
     <button class="submit-btn" onclick="handleSubmit()">Submit Entry</button>
@@ -39,15 +44,26 @@
     <script>
       const tbody = document.getElementById("tbody");
 
-
-      const entries = ["fatique", "anxiety", "irritable", "unmotivated", "sadness", "headache", "crying", "bodyaches", "jounaling", "mediation", "yoga"]
+      const entries = [
+        "fatique",
+        "anxiety",
+        "irritable",
+        "unmotivated",
+        "sadness",
+        "headache",
+        "crying",
+        "bodyaches",
+        "jounaling",
+        "mediation",
+        "yoga",
+      ];
       entries.forEach((val) => {
         let newRow = document.createElement("tr");
         newRow.innerHTML = `<td>${val}</td>
                             <td>
                               <input type="checkbox" id=${val} name=${val} value=${val}>
                               <label for="html">Yes</label>
-                            </td>`
+                            </td>`;
         tbody.appendChild(newRow);
       });
 
@@ -60,19 +76,21 @@
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-              entryDate: new Date().toISOString().slice(0, 19).replace('T', ' '),
-              clientID: document.getElementById("clientId").value,
-              fatique: document.getElementById("fatique").checked ? "1" : "0",
-              anxiety: document.getElementById("anxiety").checked ? "1" : "0",
-              unmotivated: document.getElementById("unmotivated").checked ? "1" : "0",
-              sadness: document.getElementById("sadness").checked ? "1" : "0",
-              irritable: document.getElementById("irritable").checked ? "1" : "0",
-              headache: document.getElementById("headache").checked ? "1" : "0",
-              crying : document.getElementById("crying").checked ? "1" : "0",
-              bodyaches : document.getElementById("bodyaches").checked ? "1" : "0",
-              jounaling : document.getElementById("jounaling").checked ? "1" : "0",
-              mediation : document.getElementById("mediation").checked ? "1" : "0",
-              yoga : document.getElementById("yoga").checked ? "1" : "0"
+            entryDate: new Date().toISOString().slice(0, 19).replace("T", " "),
+            clientID: document.getElementById("clientId").value,
+            fatique: document.getElementById("fatique").checked ? "1" : "0",
+            anxiety: document.getElementById("anxiety").checked ? "1" : "0",
+            unmotivated: document.getElementById("unmotivated").checked
+              ? "1"
+              : "0",
+            sadness: document.getElementById("sadness").checked ? "1" : "0",
+            irritable: document.getElementById("irritable").checked ? "1" : "0",
+            headache: document.getElementById("headache").checked ? "1" : "0",
+            crying: document.getElementById("crying").checked ? "1" : "0",
+            bodyaches: document.getElementById("bodyaches").checked ? "1" : "0",
+            jounaling: document.getElementById("jounaling").checked ? "1" : "0",
+            mediation: document.getElementById("mediation").checked ? "1" : "0",
+            yoga: document.getElementById("yoga").checked ? "1" : "0",
           }),
         });
         return res.json();
@@ -81,18 +99,13 @@
       // ============================= GUI handlers =============================
       const handleSubmit = async () => {
         const res = await submitEntry();
-        entries.forEach(val => {
+        entries.forEach((val) => {
           const checkbox = document.getElementById(val);
           checkbox.checked = false;
         });
-      }
-
-      
-
-     
+      };
 
       // ============================= Button Handlers =============================
-      
 
       // ============================= Start Up =============================
     </script>

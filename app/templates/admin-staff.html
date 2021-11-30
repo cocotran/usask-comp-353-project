@@ -8,7 +8,6 @@
     <title>Admin - Staff</title>
   </head>
   <body>
-
     <!-- Navbar -->
     <ul>
       <li><a class="active" href="/">Home</a></li>
@@ -21,19 +20,25 @@
 
     <div id="modal" class="modal">
       <div class="modal-content">
-        <label for="name">Name:</label><br>
-        <input type="text" id="name" name="name" class="mb-8"><br>
+        <label for="name">Name:</label><br />
+        <input type="text" id="name" name="name" class="mb-8" /><br />
 
-        <label for="role">Role:</label><br>
-        <input type="text" id="role" name="role" class="mb-8"><br>
+        <label for="role">Role:</label><br />
+        <input type="text" id="role" name="role" class="mb-8" /><br />
 
-        <label for="dob">DOB:</label><br>
-        <input type="text" id="dob" name="dob" class="mb-8"><br>
+        <label for="dob">DOB:</label><br />
+        <input type="text" id="dob" name="dob" class="mb-8" /><br />
 
-        <label for="phone">Phone:</label><br>
-        <input type="text" id="phone" name="phone" class="mb-8"><br>
+        <label for="phone">Phone:</label><br />
+        <input type="text" id="phone" name="phone" class="mb-8" /><br />
 
-        <button id="confirmUpdateBtn" class="mt-5" onclick="confirmUpdateBtnHandler()">Update</button>
+        <button
+          id="confirmUpdateBtn"
+          class="mt-5"
+          onclick="confirmUpdateBtnHandler()"
+        >
+          Update
+        </button>
       </div>
     </div>
 
@@ -125,7 +130,9 @@
 
       // ============================= HTTP request helpers =============================
       const getAllStaffs = async () => {
-        const res = await fetch(`https://${window.location.host}/api/staff/all`);
+        const res = await fetch(
+          `https://${window.location.host}/api/staff/all`
+        );
         return res.json();
       };
 
@@ -155,21 +162,24 @@
       };
 
       const update = async (id, name, role, dob, phoneNumber) => {
-        const res = await fetch(`https://${window.location.host}/api/staff/${id}`, {
-          method: "PUT",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            name: name,
-            role: role,
-            dob: dob,
-            phoneNumber: phoneNumber,
-          }),
-        });
+        const res = await fetch(
+          `https://${window.location.host}/api/staff/${id}`,
+          {
+            method: "PUT",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              name: name,
+              role: role,
+              dob: dob,
+              phoneNumber: phoneNumber,
+            }),
+          }
+        );
         return res.json();
-      }
+      };
 
       // ============================= GUI handlers =============================
       const getDeleteButton = (id) => {
@@ -189,7 +199,7 @@
           phone.value = staff.phoneNumber;
           updateId = staff.staffID;
           openModal();
-        }
+        };
         return button;
       };
 
@@ -208,8 +218,7 @@
           let field = document.createElement("td");
           if (typeof val == "string" && val.includes("-"))
             field.innerText = val.substring(0, 10);
-          else
-            field.innerText = val;
+          else field.innerText = val;
           newRow.appendChild(field);
         });
         let action = document.createElement("td");
@@ -240,27 +249,35 @@
 
       const removeStaffRow = async (id) => {
         const newStaff = await deleteStaff(id);
-        if (newStaff?.message == "Staff was deleted successfully!") removeSingleRow(id);
+        if (newStaff?.message == "Staff was deleted successfully!")
+          removeSingleRow(id);
       };
 
       const openModal = async () => {
         modal.style.display = "block";
-      }
+      };
 
       const confirmUpdateBtnHandler = async () => {
-        const res = await update(updateId, name.value, role.value, dob.value, phone.value);
-        if (res.id == updateId) alert(`Successfully update staff with ID ${res.id}`)
-      }
+        const res = await update(
+          updateId,
+          name.value,
+          role.value,
+          dob.value,
+          phone.value
+        );
+        if (res.id == updateId)
+          alert(`Successfully update staff with ID ${res.id}`);
+      };
 
       // ============================= Start Up =============================
       generateTable();
 
       // When the user clicks anywhere outside of the modal, close it
-      window.onclick = function(event) {
+      window.onclick = function (event) {
         if (event.target == modal) {
           modal.style.display = "none";
         }
-      }
+      };
     </script>
   </body>
 </html>

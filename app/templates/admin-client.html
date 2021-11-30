@@ -8,7 +8,6 @@
     <title>Admin - Client</title>
   </head>
   <body>
-
     <!-- Navbar -->
     <ul>
       <li><a class="active" href="/">Home</a></li>
@@ -21,16 +20,22 @@
 
     <div id="modal" class="modal">
       <div class="modal-content">
-        <label for="name">Name:</label><br>
-        <input type="text" id="name" name="name" class="mb-8"><br>
+        <label for="name">Name:</label><br />
+        <input type="text" id="name" name="name" class="mb-8" /><br />
 
-        <label for="dob">DOB:</label><br>
-        <input type="text" id="dob" name="dob" class="mb-8"><br>
+        <label for="dob">DOB:</label><br />
+        <input type="text" id="dob" name="dob" class="mb-8" /><br />
 
-        <label for="phone">Phone:</label><br>
-        <input type="text" id="phone" name="phone" class="mb-8"><br>
+        <label for="phone">Phone:</label><br />
+        <input type="text" id="phone" name="phone" class="mb-8" /><br />
 
-        <button id="confirmUpdateBtn" class="mt-5" onclick="confirmUpdateBtnHandler()">Update</button>
+        <button
+          id="confirmUpdateBtn"
+          class="mt-5"
+          onclick="confirmUpdateBtnHandler()"
+        >
+          Update
+        </button>
       </div>
     </div>
 
@@ -81,7 +86,9 @@
           </td>
 
           <td>
-            <button class="button" onclick="addNewClientRow()">Add Client</button>
+            <button class="button" onclick="addNewClientRow()">
+              Add Client
+            </button>
           </td>
         </tr>
         <!-- End Add Row -->
@@ -109,7 +116,9 @@
 
       // ============================= HTTP request helpers =============================
       const getAllClients = async () => {
-        const res = await fetch(`https://${window.location.host}/api/client/all`);
+        const res = await fetch(
+          `https://${window.location.host}/api/client/all`
+        );
         return res.json();
       };
 
@@ -138,20 +147,23 @@
       };
 
       const update = async (id, name, dob, phoneNumber) => {
-        const res = await fetch(`https://${window.location.host}/api/client/${id}`, {
-          method: "PUT",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            name: name,
-            dob: dob,
-            phoneNumber: phoneNumber,
-          }),
-        });
+        const res = await fetch(
+          `https://${window.location.host}/api/client/${id}`,
+          {
+            method: "PUT",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              name: name,
+              dob: dob,
+              phoneNumber: phoneNumber,
+            }),
+          }
+        );
         return res.json();
-      }
+      };
 
       // ============================= GUI handlers =============================
       const getDeleteButton = (id) => {
@@ -170,7 +182,7 @@
           phone.value = client.phoneNumber;
           updateId = client.clientID;
           openModal();
-        }
+        };
         return button;
       };
 
@@ -189,8 +201,7 @@
           let field = document.createElement("td");
           if (typeof val == "string" && val.includes("-"))
             field.innerText = val.substring(0, 10);
-          else
-            field.innerText = val;
+          else field.innerText = val;
           newRow.appendChild(field);
         });
         let action = document.createElement("td");
@@ -220,27 +231,29 @@
 
       const removeClientRow = async (id) => {
         const newClient = await deleteClient(id);
-        if (newClient?.message == "Client was deleted successfully!") removeSingleRow(id);
+        if (newClient?.message == "Client was deleted successfully!")
+          removeSingleRow(id);
       };
 
       const openModal = async () => {
         modal.style.display = "block";
-      }
+      };
 
       const confirmUpdateBtnHandler = async () => {
         const res = await update(updateId, name.value, dob.value, phone.value);
-        if (res.id == updateId) alert(`Successfully update client with ID ${res.id}`)
-      }
+        if (res.id == updateId)
+          alert(`Successfully update client with ID ${res.id}`);
+      };
 
       // ============================= Start Up =============================
       generateTable();
 
       // When the user clicks anywhere outside of the modal, close it
-      window.onclick = function(event) {
+      window.onclick = function (event) {
         if (event.target == modal) {
           modal.style.display = "none";
         }
-      }
+      };
     </script>
   </body>
 </html>

@@ -8,12 +8,11 @@
     <title>Staff - Add Client</title>
   </head>
   <body>
-
     <!-- Navbar -->
     <ul>
-        <li><a class="active" href="/">Home</a></li>
-        <li><a class="" href="/staff/add">Add New Client</a></li>
-        <li><a class="" href="/staff">My Clients</a></li>
+      <li><a class="active" href="/">Home</a></li>
+      <li><a class="" href="/staff/add">Add New Client</a></li>
+      <li><a class="" href="/staff">My Clients</a></li>
     </ul>
     <!-- Navbar end -->
 
@@ -28,14 +27,14 @@
       </thead>
       <tfoot></tfoot>
       <tbody id="tbody">
-          <tr>
-              <td>
-                <input type="number" id="clientId" name="client-id">
-              </td>
-              <td>
-                <input type="number" id="staffId" name="staff-id">
-              </td>
-          </tr>
+        <tr>
+          <td>
+            <input type="number" id="clientId" name="client-id" />
+          </td>
+          <td>
+            <input type="number" id="staffId" name="staff-id" />
+          </td>
+        </tr>
       </tbody>
     </table>
 
@@ -44,21 +43,24 @@
     <script>
       const tbody = document.getElementById("tbody");
       const clientId = document.getElementById("clientId");
-      const staffId = document.getElementById("staffId")
+      const staffId = document.getElementById("staffId");
 
       // ============================= HTTP request helpers =============================
       const submitEntry = async () => {
-        const res = await fetch(`https://${window.location.host}/api/clientlist`, {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
+        const res = await fetch(
+          `https://${window.location.host}/api/clientlist`,
+          {
+            method: "POST",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
               clientID: clientId.value,
-              staffID: staffId.value
-          }),
-        });
+              staffID: staffId.value,
+            }),
+          }
+        );
         return res.json();
       };
 
@@ -67,14 +69,9 @@
         const res = await submitEntry();
         clientId.value = "";
         staffId.value = "";
-      }
-
-      
-
-     
+      };
 
       // ============================= Button Handlers =============================
-      
 
       // ============================= Start Up =============================
     </script>

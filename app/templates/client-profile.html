@@ -8,7 +8,6 @@
     <title>Clien</title>
   </head>
   <body>
-
     <!-- Navbar -->
     <ul>
       <li><a class="active" href="/">Home</a></li>
@@ -20,7 +19,14 @@
     <h1 class="text-center">My Profile</h1>
 
     <label for="clientId">Client ID:</label>
-    <input type="number" id="clientId" name="clientId" min="1" max="1000000" step="1">
+    <input
+      type="number"
+      id="clientId"
+      name="clientId"
+      min="1"
+      max="1000000"
+      step="1"
+    />
 
     <button class="" onclick="generateTable()">Refresh</button>
 
@@ -51,11 +57,13 @@
 
     <script>
       const tbody = document.getElementById("tbody");
+      const clientId = document.getElementById("clientId");
 
       // ============================= HTTP request helpers =============================
-      const getAllEntries = async () => {
-        const clientId = document.getElementById("clientId").value;
-        const res = await fetch(`https://${window.location.host}/api/tracker/${clientId}`);
+      const getAllEntries = async (id) => {
+        const res = await fetch(
+          `https://${window.location.host}/api/tracker/${id}`
+        );
         return res.json();
       };
 
@@ -76,7 +84,7 @@
       };
 
       const generateTable = async () => {
-        const entries = await getAllEntries();
+        const entries = await getAllEntries(clientId.value);
 
         entries.forEach((entry) => {
           addSingleRow(entry);
@@ -112,10 +120,35 @@
       // ============================= Button Handlers =============================
       const removeEntryRow = async (id) => {
         const newClient = await deleteEntry(id);
-        if (newClient?.message == "Entry was deleted successfully!") removeSingleRow(id);
+        if (newClient?.message == "Entry was deleted successfully!")
+          removeSingleRow(id);
       };
 
       // ============================= Start Up =============================
+      if (typeof window !== "undefined") {
+        const queryParamsString = window.location.search.substr(1);
+        const queryParams = queryParamsString
+          .split("&")
+          .reduce((accumulator, singleQueryParam) => {
+            const [key, value] = singleQueryParam.split("=");
+            accumulator[key] = value;
+            return accumulator;
+          }, {});
+
+        const setQuery = async (id) => {
+          clientId.value = id;
+          return true;
+        };
+
+        const fetch = async () => {
+          if (queryParams.clientID) {
+            const res = await setQuery(queryParams.clientID);
+            if (res) generateTable();
+          }
+        };
+
+        fetch();
+      }
     </script>
   </body>
 </html>

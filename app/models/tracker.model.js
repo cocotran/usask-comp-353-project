@@ -1,4 +1,3 @@
-
 const db = require("./db.js");
 
 const TABLE_TRACKER = "trackers";
@@ -35,22 +34,25 @@ TrackerEntry.create = (newEntry, func) => {
 };
 
 TrackerEntry.findById = (id, func) => {
-  db.query(`SELECT * FROM ${TABLE_TRACKER} WHERE clientID = ${id}`, (err, res) => {
-    if (err) {
-      console.log("Error: ", err);
-      func(err, null);
-      return;
-    }
+  db.query(
+    `SELECT * FROM ${TABLE_TRACKER} WHERE clientID = ${id}`,
+    (err, res) => {
+      if (err) {
+        console.log("Error: ", err);
+        func(err, null);
+        return;
+      }
 
-    if (res.length) {
-      // console.log("Found entry: ", res[0]);
-      func(null, res);
-      return;
-    }
+      if (res.length) {
+        // console.log("Found entry: ", res[0]);
+        func(null, res);
+        return;
+      }
 
-    // not found
-    func({ kind: "not_found" }, null);
-  });
+      // not found
+      func({ kind: "not_found" }, null);
+    }
+  );
 };
 
 TrackerEntry.getAll = (func) => {
@@ -71,7 +73,20 @@ TrackerEntry.getAll = (func) => {
 TrackerEntry.updateById = (id, entry, func) => {
   db.query(
     `UPDATE ${TABLE_TRACKER} SET entryDate = ?, clientID = ?, fatique = ?, irritable = ?, unmotivated = ?, sadness = ?, headache = ?, crying = ?, bodyaches = ?, , jounaling = ?, mediation = ?, yoga = ? WHERE entryID = ?`,
-    [entry.entryDate, entry.clientID, entry.fatique, entry.irritable, entry.unmotivated, entry.sadness, entry.headache, entry.crying, entry.bodyaches, entry.jounaling, entry.mediation, entry.yoga],
+    [
+      entry.entryDate,
+      entry.clientID,
+      entry.fatique,
+      entry.irritable,
+      entry.unmotivated,
+      entry.sadness,
+      entry.headache,
+      entry.crying,
+      entry.bodyaches,
+      entry.jounaling,
+      entry.mediation,
+      entry.yoga,
+    ],
     (err, res) => {
       if (err) {
         console.log("Error: ", err);

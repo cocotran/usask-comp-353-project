@@ -78,19 +78,23 @@ exports.update = (req, res) => {
     });
   }
 
-  TrackerEntry.updateById(req.params.id, new TrackerEntry(req.body), (err, data) => {
-    if (err) {
-      if (err.kind === "not_found") {
-        res.status(404).send({
-          message: `Not found entry with id ${req.params.id}.`,
-        });
-      } else {
-        res.status(500).send({
-          message: "Error updating entry with id " + req.params.id,
-        });
-      }
-    } else res.send(data);
-  });
+  TrackerEntry.updateById(
+    req.params.id,
+    new TrackerEntry(req.body),
+    (err, data) => {
+      if (err) {
+        if (err.kind === "not_found") {
+          res.status(404).send({
+            message: `Not found entry with id ${req.params.id}.`,
+          });
+        } else {
+          res.status(500).send({
+            message: "Error updating entry with id " + req.params.id,
+          });
+        }
+      } else res.send(data);
+    }
+  );
 };
 
 // Delete entry with the specified id in the request

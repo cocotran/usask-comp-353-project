@@ -1,4 +1,3 @@
-
 const db = require("./db.js");
 
 const TABLE_CLIENTLIST = "clientlist";
@@ -24,42 +23,48 @@ ClientList.create = (assignment, func) => {
 };
 
 ClientList.findStaffById = (id, func) => {
-  db.query(`SELECT * FROM ${TABLE_CLIENTLIST} WHERE staffID = ${id}`, (err, res) => {
-    if (err) {
-      console.log("Error: ", err);
-      func(err, null);
-      return;
-    }
-
-    if (res.length) {
-      // console.log("Found client: ", res[0]);
-      func(null, res);
-      return;
-    }
-
-    // not found
-    func({ kind: "not_found" }, null);
-  });
-};
-
-ClientList.findClientById = (id, func) => {
-    db.query(`SELECT * FROM ${TABLE_CLIENTLIST} WHERE clientID = ${id}`, (err, res) => {
+  db.query(
+    `SELECT * FROM ${TABLE_CLIENTLIST} WHERE staffID = ${id}`,
+    (err, res) => {
       if (err) {
         console.log("Error: ", err);
         func(err, null);
         return;
       }
-  
+
+      if (res.length) {
+        // console.log("Found client: ", res[0]);
+        func(null, res);
+        return;
+      }
+
+      // not found
+      func({ kind: "not_found" }, null);
+    }
+  );
+};
+
+ClientList.findClientById = (id, func) => {
+  db.query(
+    `SELECT * FROM ${TABLE_CLIENTLIST} WHERE clientID = ${id}`,
+    (err, res) => {
+      if (err) {
+        console.log("Error: ", err);
+        func(err, null);
+        return;
+      }
+
       if (res.length) {
         // console.log("Found client: ", res[0]);
         func(null, res[0]);
         return;
       }
-  
+
       // not found
       func({ kind: "not_found" }, null);
-    });
-  };
+    }
+  );
+};
 
 ClientList.getAll = (func) => {
   let query = `SELECT * FROM ${TABLE_CLIENTLIST}`;
@@ -100,22 +105,26 @@ ClientList.updateById = (id, assignment, func) => {
 };
 
 ClientList.removeById = (staffId, clientId, func) => {
-  db.query(`DELETE FROM ${TABLE_CLIENTLIST} WHERE clientID = ? AND staffID = ?`, [clientId, staffId], (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      func(null, err);
-      return;
-    }
+  db.query(
+    `DELETE FROM ${TABLE_CLIENTLIST} WHERE clientID = ? AND staffID = ?`,
+    [clientId, staffId],
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        func(null, err);
+        return;
+      }
 
-    if (res.affectedRows == 0) {
-      // not found Tutorial with the id
-      func({ kind: "not_found" }, null);
-      return;
-    }
+      if (res.affectedRows == 0) {
+        // not found Tutorial with the id
+        func({ kind: "not_found" }, null);
+        return;
+      }
 
-    // console.log("Deleted client with id: ", id);
-    func(null, res);
-  });
+      // console.log("Deleted client with id: ", id);
+      func(null, res);
+    }
+  );
 };
 
 ClientList.removeAll = (func) => {
