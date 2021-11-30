@@ -49,13 +49,13 @@
 
       // ============================= HTTP request helpers =============================
       const getAllEntries = async () => {
-        const res = await fetch(`http://${window.location.host}/api/tracker/all`);
+        const res = await fetch(`https://${window.location.host}/api/tracker/all`);
         return res.json();
       };
 
       const deleteEntry = async (id) => {
         const res = await fetch(
-          `http://${window.location.host}/api/tracker/${id}`,
+          `https://${window.location.host}/api/tracker/${id}`,
           { method: "DELETE" }
         );
         return res.json();

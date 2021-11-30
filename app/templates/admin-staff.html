@@ -104,7 +104,7 @@
       };
 
       const registerStaff = async (name, role, dob, phoneNumber) => {
-        const res = await fetch(`http://${window.location.host}/api/staff`, {
+        const res = await fetch(`https://${window.location.host}/api/staff`, {
           method: "POST",
           headers: {
             Accept: "application/json",
@@ -122,7 +122,7 @@
 
       const deleteStaff = async (id) => {
         const res = await fetch(
-          `http://${window.location.host}/api/staff/${id}`,
+          `https://${window.location.host}/api/staff/${id}`,
           { method: "DELETE" }
         );
         return res.json();

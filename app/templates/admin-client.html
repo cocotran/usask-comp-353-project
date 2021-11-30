@@ -87,12 +87,12 @@
 
       // ============================= HTTP request helpers =============================
       const getAllClients = async () => {
-        const res = await fetch(`http://${window.location.host}/api/client/all`);
+        const res = await fetch(`https://${window.location.host}/api/client/all`);
         return res.json();
       };
 
       const registerClient = async (name, dob, phoneNumber) => {
-        const res = await fetch(`http://${window.location.host}/api/client`, {
+        const res = await fetch(`https://${window.location.host}/api/client`, {
           method: "POST",
           headers: {
             Accept: "application/json",
@@ -109,7 +109,7 @@
 
       const deleteClient = async (id) => {
         const res = await fetch(
-          `http://${window.location.host}/api/client/${id}`,
+          `https://${window.location.host}/api/client/${id}`,
           { method: "DELETE" }
         );
         return res.json();
